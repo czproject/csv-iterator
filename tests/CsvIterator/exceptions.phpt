@@ -12,7 +12,7 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/header.empty-cell.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\CsvIteratorException', 'Empty header cell at position 1.');
+	}, 'CzProject\CsvIterator\ParseException', 'Empty header cell at position 1.');
 });
 
 
@@ -22,7 +22,7 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/header.duplicate.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\CsvIteratorException', 'Duplicate header \'id\'.');
+	}, 'CzProject\CsvIterator\ParseException', 'Duplicate header \'id\'.');
 });
 
 
@@ -32,5 +32,5 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/not-found.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\CsvIteratorException', 'File \'' . __DIR__ . '/csv/not-found.csv' . '\' not found or access denied.');
+	}, 'CzProject\CsvIterator\IOException', 'File \'' . __DIR__ . '/csv/not-found.csv' . '\' not found or access denied.');
 });

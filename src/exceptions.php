@@ -3,6 +3,16 @@
 	namespace CzProject\CsvIterator;
 
 
-	class CsvIteratorException extends \RuntimeException
+	class Exception extends \RuntimeException
+	{
+	}
+
+
+	class IOException extends Exception
+	{
+	}
+
+
+	class ParseException extends Exception
 	{
 	}

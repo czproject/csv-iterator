@@ -101,11 +101,11 @@
 					$value = $this->normalizeValue($value);
 
 					if ($value === '') {
-						throw new CsvIteratorException('Empty header cell at position ' . $i . '.');
+						throw new ParseException('Empty header cell at position ' . $i . '.');
 					}
 
 					if (isset($this->header[$value])) {
-						throw new CsvIteratorException('Duplicate header \'' . $value . '\'.');
+						throw new ParseException('Duplicate header \'' . $value . '\'.');
 					}
 
 					$this->header[$value] = $i;
@@ -138,7 +138,7 @@
 				$f = @fopen($this->file, 'r'); // @ intentionally
 
 				if ($f === FALSE) {
-					throw new CsvIteratorException('File \'' . $this->file . '\' not found or access denied.');
+					throw new IOException('File \'' . $this->file . '\' not found or access denied.');
 				}
 
 				$this->pointer = $f;
