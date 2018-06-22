@@ -54,4 +54,9 @@ test(function () {
 		$iterator->setEscape('\\');
 
 	}, 'CzProject\CsvIterator\InvalidStateException', 'Escape char can be changed before reading started only.');
+
+	Assert::exception(function () use ($iterator) {
+		$iterator->setEncoding('UTF-8');
+
+	}, 'CzProject\CsvIterator\InvalidStateException', 'Encoding can be changed before reading started only.');
 });

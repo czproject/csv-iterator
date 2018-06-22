@@ -5,6 +5,9 @@
 
 	class CsvIterator
 	{
+		const ENCODING_UTF_8 = 'UTF-8';
+		const ENCODING_WINDOWS_1250 = 'WINDOWS-1250';
+
 		/** @var string */
 		private $file;
 
@@ -22,6 +25,9 @@
 
 		/** @var string */
 		private $escape = '\\';
+
+		/** @var string */
+		private $encoding = self::ENCODING_UTF_8;
 
 		/** @var bool */
 		private $eof = FALSE;
@@ -77,6 +83,21 @@
 			}
 
 			$this->escape = $escape;
+			return $this;
+		}
+
+
+		/**
+		 * @param  string
+		 * @return static
+		 */
+		public function setEncoding($encoding)
+		{
+			if ($this->inProgress) {
+				throw new InvalidStateException("Encoding can be changed before reading started only.");
+			}
+
+			$this->encoding = $encoding;
 			return $this;
 		}
 
@@ -164,12 +185,17 @@
 
 		private function normalizeValue($value)
 		{
+			if ($this->encoding !== self::ENCODING_UTF_8) {
+				$value = iconv($this->encoding, 'UTF-8//TRANSLIT', $value);
+			}
+
 			if ($this->escape !== '' && $this->enclosure !== '') { // fgetcsv() dosn't return unescaped strings, see http://php.net/manual/en/function.fgetcsv.php#119896
 				$escapeChar = $this->escape . $this->enclosure;
 				$value = strtr($value, array(
 					$escapeChar => $this->enclosure,
 				));
 			}
+
 			return trim($value);
 		}
 	}
