@@ -30,6 +30,12 @@ id,name
 ```php
 $iterator = new CzProject\CsvIterator\CsvIterator('/path/to/file.csv');
 
+// optional:
+$iterator->setDelimiter(',');
+$iterator->setEnclosure('"');
+$iterator->setEscape('\\');
+$iterator->setEncoding('UTF-8');
+
 while (($row = $iterator->fetch()) !== NULL) {
 	echo $row['id']; // prints '1'
 	echo $row['name']; // prints 'Gandalf The White'
