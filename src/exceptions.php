@@ -8,6 +8,11 @@
 	}
 
 
+	class InvalidStateException extends Exception
+	{
+	}
+
+
 	class IOException extends Exception
 	{
 	}

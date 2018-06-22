@@ -26,6 +26,9 @@
 		/** @var bool */
 		private $eof = FALSE;
 
+		/** @var bool */
+		private $inProgress = FALSE;
+
 
 		public function __construct($file)
 		{
@@ -39,6 +42,10 @@
 		 */
 		public function setDelimiter($delimiter)
 		{
+			if ($this->inProgress) {
+				throw new InvalidStateException("Delimiter can be changed before reading started only.");
+			}
+
 			$this->delimiter = $delimiter;
 			return $this;
 		}
@@ -50,6 +57,10 @@
 		 */
 		public function setEnclosure($enclosure)
 		{
+			if ($this->inProgress) {
+				throw new InvalidStateException("Enclosure can be changed before reading started only.");
+			}
+
 			$this->enclosure = $enclosure;
 			return $this;
 		}
@@ -61,6 +72,10 @@
 		 */
 		public function setEscape($escape)
 		{
+			if ($this->inProgress) {
+				throw new InvalidStateException("Escape char can be changed before reading started only.");
+			}
+
 			$this->escape = $escape;
 			return $this;
 		}
@@ -142,6 +157,7 @@
 				}
 
 				$this->pointer = $f;
+				$this->inProgress = TRUE;
 			}
 		}
 
