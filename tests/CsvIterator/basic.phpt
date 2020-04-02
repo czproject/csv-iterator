@@ -32,3 +32,18 @@ test(function () {
 	Assert::null($iterator->fetch()); // EOF
 	Assert::null($iterator->fetch()); // closed file
 });
+
+
+
+test(function () {
+	$iterator = new CsvIterator(__DIR__ . '/csv/bom.csv');
+	$iterator->setDelimiter(';');
+
+	Assert::same(array(
+		'email' => 'test@example.com',
+		'firstName' => 'John',
+	), $iterator->fetch());
+
+	Assert::null($iterator->fetch()); // EOF
+	Assert::null($iterator->fetch()); // closed file
+});

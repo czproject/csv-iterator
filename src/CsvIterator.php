@@ -187,6 +187,9 @@
 		{
 			if ($this->encoding !== self::ENCODING_UTF_8) {
 				$value = iconv($this->encoding, 'UTF-8//TRANSLIT', $value);
+
+			} else {
+				$value = str_replace("\xEF\xBB\xBF", '', $value); // remove BOM
 			}
 
 			if ($this->escape !== '' && $this->enclosure !== '') { // fgetcsv() dosn't return unescaped strings, see http://php.net/manual/en/function.fgetcsv.php#119896
