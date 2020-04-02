@@ -17,7 +17,7 @@ Simple reading of CSV files.
 composer require czproject/csv-iterator
 ```
 
-CsvIterator requires PHP 5.4.0 or later.
+CsvIterator requires PHP 5.6.0 or later.
 
 
 ## Usage
