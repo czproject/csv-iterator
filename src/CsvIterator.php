@@ -102,6 +102,32 @@
 		}
 
 
+		public function setHeader(array $header)
+		{
+			if ($this->inProgress) {
+				throw new InvalidStateException("Header can be changed before reading started only.");
+			}
+
+			if (empty($header)) {
+				throw new InvalidArgumentException('Header cannot be empty.');
+			}
+
+			$this->header = array();
+			$i = 0;
+
+			foreach ($header as $value) {
+				if (!is_string($value)) {
+					throw new InvalidArgumentException('Header name must be string.');
+				}
+
+				$this->header[$value] = $i;
+				$i++;
+			}
+
+			return $this;
+		}
+
+
 		/**
 		 * @return array|NULL
 		 * @throws CsvIteratorException
