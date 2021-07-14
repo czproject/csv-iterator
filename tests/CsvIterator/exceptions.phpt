@@ -12,7 +12,7 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/header.empty-cell.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\ParseException', 'Empty header cell at position 1.');
+	}, CzProject\CsvIterator\ParseException::class, 'Empty header cell at position 1.');
 });
 
 
@@ -22,7 +22,7 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/header.duplicate.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\ParseException', 'Duplicate header \'id\'.');
+	}, CzProject\CsvIterator\ParseException::class, 'Duplicate header \'id\'.');
 });
 
 
@@ -32,7 +32,7 @@ test(function () {
 		$iterator = new CsvIterator(__DIR__ . '/csv/not-found.csv');
 		$iterator->fetch();
 
-	}, 'CzProject\CsvIterator\IOException', 'File \'' . __DIR__ . '/csv/not-found.csv' . '\' not found or access denied.');
+	}, CzProject\CsvIterator\IOException::class, 'File \'' . __DIR__ . '/csv/not-found.csv' . '\' not found or access denied.');
 });
 
 
@@ -43,20 +43,20 @@ test(function () {
 	Assert::exception(function () use ($iterator) {
 		$iterator->setDelimiter(';');
 
-	}, 'CzProject\CsvIterator\InvalidStateException', 'Delimiter can be changed before reading started only.');
+	}, CzProject\CsvIterator\InvalidStateException::class, 'Delimiter can be changed before reading started only.');
 
 	Assert::exception(function () use ($iterator) {
 		$iterator->setEnclosure('"');
 
-	}, 'CzProject\CsvIterator\InvalidStateException', 'Enclosure can be changed before reading started only.');
+	}, CzProject\CsvIterator\InvalidStateException::class, 'Enclosure can be changed before reading started only.');
 
 	Assert::exception(function () use ($iterator) {
 		$iterator->setEscape('\\');
 
-	}, 'CzProject\CsvIterator\InvalidStateException', 'Escape char can be changed before reading started only.');
+	}, CzProject\CsvIterator\InvalidStateException::class, 'Escape char can be changed before reading started only.');
 
 	Assert::exception(function () use ($iterator) {
 		$iterator->setEncoding('UTF-8');
 
-	}, 'CzProject\CsvIterator\InvalidStateException', 'Encoding can be changed before reading started only.');
+	}, CzProject\CsvIterator\InvalidStateException::class, 'Encoding can be changed before reading started only.');
 });
