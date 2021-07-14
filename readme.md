@@ -1,7 +1,7 @@
 
 # CsvIterator
 
-[![Build Status](https://travis-ci.org/czproject/csv-iterator.svg?branch=master)](https://travis-ci.org/czproject/csv-iterator)
+[![Tests Status](https://github.com/czproject/csv-iterator/workflows/Tests/badge.svg)](https://github.com/czproject/csv-iterator/actions)
 
 Simple reading of CSV files.
 
