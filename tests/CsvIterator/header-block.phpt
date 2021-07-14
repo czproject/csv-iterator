@@ -13,17 +13,17 @@ test(function () {
 		// skip line
 	}
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '1',
 		'name' => 'Gandalf The White',
 		'status' => '1',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '2',
 		'name' => 'Harry Potter',
 		'status' => '0',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
 	Assert::null($iterator->fetch()); // EOF
 	Assert::null($iterator->fetch()); // closed file

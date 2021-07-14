@@ -112,7 +112,7 @@
 				throw new InvalidArgumentException('Header cannot be empty.');
 			}
 
-			$this->header = array();
+			$this->header = [];
 			$i = 0;
 
 			foreach ($header as $value) {
@@ -181,7 +181,7 @@
 			} while (!is_array($data) || empty($data));
 
 			if ($this->header === NULL) { // parse header
-				$this->header = array();
+				$this->header = [];
 				$wasLastEmpty = FALSE;
 
 				foreach ($data as $i => $value) {
@@ -209,7 +209,7 @@
 			}
 
 			// parse data
-			$row = array();
+			$row = [];
 
 			foreach ($this->header as $column => $i) {
 				$value = NULL;
@@ -252,9 +252,9 @@
 
 			if ($this->escape !== '' && $this->enclosure !== '') { // fgetcsv() dosn't return unescaped strings, see http://php.net/manual/en/function.fgetcsv.php#119896
 				$escapeChar = $this->escape . $this->enclosure;
-				$value = strtr($value, array(
+				$value = strtr($value, [
 					$escapeChar => $this->enclosure,
-				));
+				]);
 			}
 
 			return trim($value);

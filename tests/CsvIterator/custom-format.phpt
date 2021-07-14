@@ -12,9 +12,9 @@ test(function () {
 	$iterator->setEnclosure('\'');
 	$iterator->setEscape('\\');
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '1',
 		'name' => 'Potter \' Harry',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
 });

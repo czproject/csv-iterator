@@ -8,35 +8,35 @@ require __DIR__ . '/../bootstrap.php';
 
 test(function () {
 	$iterator = new CsvIterator(__DIR__ . '/csv/basic.csv');
-	$iterator->setHeader(array(
+	$iterator->setHeader([
 		'id',
 		'name',
-	));
+	]);
 
-	Assert::same(array(
+	Assert::same([
 		'id' => 'id',
 		'name' => 'name',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '1',
 		'name' => 'Gandalf The White',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '2',
 		'name' => 'Harry Potter',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '3',
 		'name' => NULL,
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => NULL,
 		'name' => NULL,
-	), $iterator->fetch());
+	], $iterator->fetch());
 
 	Assert::null($iterator->fetch()); // EOF
 	Assert::null($iterator->fetch()); // closed file

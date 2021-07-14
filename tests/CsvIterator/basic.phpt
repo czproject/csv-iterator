@@ -9,25 +9,25 @@ require __DIR__ . '/../bootstrap.php';
 test(function () {
 	$iterator = new CsvIterator(__DIR__ . '/csv/basic.csv');
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '1',
 		'name' => 'Gandalf The White',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '2',
 		'name' => 'Harry Potter',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => '3',
 		'name' => NULL,
-	), $iterator->fetch());
+	], $iterator->fetch());
 
-	Assert::same(array(
+	Assert::same([
 		'id' => NULL,
 		'name' => NULL,
-	), $iterator->fetch());
+	], $iterator->fetch());
 
 	Assert::null($iterator->fetch()); // EOF
 	Assert::null($iterator->fetch()); // closed file
@@ -39,10 +39,10 @@ test(function () {
 	$iterator = new CsvIterator(__DIR__ . '/csv/bom.csv');
 	$iterator->setDelimiter(';');
 
-	Assert::same(array(
+	Assert::same([
 		'email' => 'test@example.com',
 		'firstName' => 'John',
-	), $iterator->fetch());
+	], $iterator->fetch());
 
 	Assert::null($iterator->fetch()); // EOF
 	Assert::null($iterator->fetch()); // closed file
