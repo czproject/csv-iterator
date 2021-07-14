@@ -182,12 +182,19 @@
 
 			if ($this->header === NULL) { // parse header
 				$this->header = array();
+				$wasLastEmpty = FALSE;
 
 				foreach ($data as $i => $value) {
+					if ($wasLastEmpty) {
+						throw new ParseException('Empty header cell at position ' . ($i - 1) . '.');
+					}
+
 					$value = $this->normalizeValue($value);
+					$wasLastEmpty = FALSE;
 
 					if ($value === '') {
-						throw new ParseException('Empty header cell at position ' . $i . '.');
+						$wasLastEmpty = TRUE;
+						continue;
 					}
 
 					if (isset($this->header[$value])) {
