@@ -129,6 +129,30 @@
 
 
 		/**
+		 * @return string|NULL
+		 * @throws CsvIteratorException
+		 */
+		public function consumeLine()
+		{
+			if ($this->eof) {
+				return NULL;
+			}
+
+			$this->open();
+			$s = fgets($this->pointer);
+
+			if ($s === FALSE) {
+				$this->eof = TRUE;
+				fclose($this->pointer);
+				return NULL;
+			}
+
+			$s = trim($s);
+			return $s !== '' ? $s : NULL;
+		}
+
+
+		/**
 		 * @return array|NULL
 		 * @throws CsvIteratorException
 		 */
