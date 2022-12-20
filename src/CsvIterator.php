@@ -14,7 +14,7 @@
 		/** @var resource|NULL */
 		private $pointer = NULL;
 
-		/** @var array|NULL */
+		/** @var array<string, int>|NULL */
 		private $header = NULL;
 
 		/** @var string */
@@ -36,6 +36,9 @@
 		private $inProgress = FALSE;
 
 
+		/**
+		 * @param string $file
+		 */
 		public function __construct($file)
 		{
 			$this->file = $file;
@@ -43,7 +46,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $delimiter
 		 * @return self
 		 */
 		public function setDelimiter($delimiter)
@@ -58,7 +61,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $enclosure
 		 * @return self
 		 */
 		public function setEnclosure($enclosure)
@@ -73,7 +76,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $escape
 		 * @return self
 		 */
 		public function setEscape($escape)
@@ -88,8 +91,8 @@
 
 
 		/**
-		 * @param  string
-		 * @return static
+		 * @param  string $encoding
+		 * @return self
 		 */
 		public function setEncoding($encoding)
 		{
@@ -102,6 +105,10 @@
 		}
 
 
+		/**
+		 * @param  string[] $header
+		 * @return self
+		 */
 		public function setHeader(array $header)
 		{
 			if ($this->inProgress) {
@@ -130,7 +137,7 @@
 
 		/**
 		 * @return string|NULL
-		 * @throws CsvIteratorException
+		 * @throws Exception
 		 */
 		public function consumeLine()
 		{
@@ -139,6 +146,11 @@
 			}
 
 			$this->open();
+
+			if ($this->pointer === NULL) {
+				throw new IOException('Missing file pointer.');
+			}
+
 			$s = fgets($this->pointer);
 
 			if ($s === FALSE) {
@@ -153,8 +165,8 @@
 
 
 		/**
-		 * @return array|NULL
-		 * @throws CsvIteratorException
+		 * @return array<string, string|NULL>|NULL
+		 * @throws Exception
 		 */
 		public function fetch()
 		{
@@ -166,9 +178,10 @@
 			$data = NULL;
 
 			do {
+				assert($this->pointer !== NULL);
 				$data = fgetcsv($this->pointer, 0, $this->delimiter, $this->enclosure, $this->escape);
 
-				if ($data === FALSE || $data === NULL) {
+				if ($data === FALSE || !is_array($data)) {
 					$this->eof = TRUE;
 					fclose($this->pointer);
 					return NULL;
@@ -189,7 +202,7 @@
 						throw new ParseException('Empty header cell at position ' . ($i - 1) . '.');
 					}
 
-					$value = $this->normalizeValue($value);
+					$value = $this->normalizeValue((string) $value);
 					$wasLastEmpty = FALSE;
 
 					if ($value === '') {
@@ -225,6 +238,9 @@
 		}
 
 
+		/**
+		 * @return void
+		 */
 		private function open()
 		{
 			if ($this->pointer === NULL) {
@@ -244,10 +260,18 @@
 		}
 
 
+		/**
+		 * @param  string $value
+		 * @return string
+		 */
 		private function normalizeValue($value)
 		{
 			if ($this->encoding !== self::ENCODING_UTF_8) {
 				$value = iconv($this->encoding, 'UTF-8//TRANSLIT', $value);
+
+				if (!is_string($value)) {
+					throw new InvalidStateException('Iconv failed.');
+				}
 			}
 
 			if ($this->escape !== '' && $this->enclosure !== '') { // fgetcsv() dosn't return unescaped strings, see http://php.net/manual/en/function.fgetcsv.php#119896
