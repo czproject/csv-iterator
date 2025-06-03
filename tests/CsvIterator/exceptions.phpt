@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CzProject\CsvIterator\CsvIterator;
 use Tester\Assert;
 
