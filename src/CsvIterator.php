@@ -183,13 +183,13 @@
 				assert($this->pointer !== NULL);
 				$data = fgetcsv($this->pointer, 0, $this->delimiter, $this->enclosure, $this->escape);
 
-				if ($data === FALSE || !is_array($data)) {
+				if ($data === FALSE) {
 					$this->eof = TRUE;
 					fclose($this->pointer);
 					return NULL;
 				}
 
-				if (is_array($data) && count($data) === 1 && $data[0] === NULL) { // empty line
+				if (count($data) === 1 && $data[0] === NULL) { // empty line
 					$data = NULL;
 				}
 
